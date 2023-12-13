@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 //file
 const CanvasRoute = require("./src/routes/CanvasRoute");
 const PaintingRoute = require("./src/routes/PaintingRoute");
+const ImageUploadRoute = require("./src/config/ImageUpload");
 
 require("dotenv").config();
 
@@ -36,6 +37,7 @@ mongoose
 
 app.use("/api/canvas", CanvasRoute);
 app.use("/api/painting", PaintingRoute);
+app.use("/api", ImageUploadRoute);
 
 // cors erorr
 app.use(function (req, res, next) {
