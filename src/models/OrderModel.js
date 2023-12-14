@@ -12,6 +12,7 @@ const OrderSchema = new Schema({
   },
   uniqueId: {
     type: String,
+    required: true,
   },
   image: {
     type: String,
