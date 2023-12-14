@@ -15,7 +15,7 @@ exports.PostOrder = async (req, res) => {
       painting: req.body.painting,
       image: req.body.image,
       deliveryDate: req.body.deliveryDate,
-      ip: req.body?.ip,
+      uniqueId: req.body.uniqueId,
     };
     const newOrder = new OrderModel(bodyData);
     await newOrder.save();
