@@ -1,39 +1,24 @@
-const imgbbUploader = require("imgbb-uploader");
-const express = require("express");
+const { default: axios } = require("axios");
 
-const router = express.Router();
-
-router.post("/uploadImage", (req, res) => {
+const pdfUploaderFunc = async (req, res) => {
+  req.body["upload_preset"] = process.env.CLOUDINARY_UPLOAD_PRESET;
+  console.log(process.env.CLOUDINARY_KEY_NAME);
+  let url = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_KEY_NAME}/upload`;
   try {
-    const image = req.body.image;
-    if (!image) {
-      return res
-        .status(400)
-        .json({ error: "Please enter all fields", success: false });
-    }
-    const options = {
-      apiKey: process.env.IMGBB_API_KEY,
-      base64string: image,
-    };
-    imgbbUploader(options)
-      .then((response) => {
-        console.log(response);
-        res.status(200).json({
-          success: false,
-          message: "Image uploaded successfully",
-          link: response?.display_url,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        res.status(500).json({
-          success: false,
-          message: "Image upload failed",
-        });
-      });
+    const response = await axios.post(url, req.body);
+    res.status(200).json({
+      error: false,
+      url: response.data.url,
+      secure_url: response.data.secure_url,
+      message: "uploaded successfully",
+    });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    console.log(err.response.data);
+    res.status(200).json({
+      error: true,
+      message: "Something went wrong",
+    });
   }
-});
+};
 
-module.exports = router;
+module.exports = pdfUploaderFunc;
