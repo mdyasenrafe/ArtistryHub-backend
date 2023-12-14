@@ -31,8 +31,10 @@ exports.PostOrder = async (req, res) => {
 
 exports.GetOrders = async (req, res) => {
   try {
-    const { ip } = req.query;
-    const orders = await OrderModel.find({ ip: ip });
+    const { uniqueId } = req.query;
+
+    const orders = await OrderModel.find({ uniqueId });
+    console.log("orders", orders);
     res.status(200).json({ success: true, data: orders });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

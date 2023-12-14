@@ -10,7 +10,7 @@ const OrderSchema = new Schema({
     type: String,
     required: true,
   },
-  ip: {
+  uniqueId: {
     type: String,
   },
   image: {
